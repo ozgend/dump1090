@@ -1,9 +1,9 @@
 PROGNAME=dump1090
-
+STD_CVER ?= c11
 DUMP1090_VERSION ?= unknown
 
 CFLAGS ?= -O3 -g
-DUMP1090_CFLAGS := -std=c11 -fno-common -Wall -Wmissing-declarations -Werror -W
+DUMP1090_CFLAGS := -std=$(STD_CVER) -fno-common -Wall -Wmissing-declarations -Werror -W
 DUMP1090_CPPFLAGS := -I. -D_POSIX_C_SOURCE=200112L -DMODES_DUMP1090_VERSION=\"$(DUMP1090_VERSION)\" -DMODES_DUMP1090_VARIANT=\"dump1090-fa\"
 
 LIBS = -lpthread -lm
@@ -203,13 +203,15 @@ else
 endif
 all: showconfig dump1090 view1090 starch-benchmark
 
-ALL_CCFLAGS := $(CPPFLAGS) $(DUMP1090_CPPFLAGS) $(CFLAGS) $(DUMP1090_CFLAGS)
+ALL_CCFLAGS := $(CPPFLAGS) $(DUMP1090_CPPFLAGS) $(CFLAGS) $(DUMP1090_CFLAGS) -DSTD_CVER=\"$(STD_CVER)\"
 
 STARCH_COMPILE := $(CC) $(ALL_CCFLAGS) -c
 include dsp/generated/makefile.$(STARCH_MIX)
 
 showconfig:
 	@echo "Building with:" >&2
+	@echo "  Compiler:         $(CC)" >&2
+	@echo "  STD_CVER:         $(STD_CVER)" >&2
 	@echo "  Version string:   $(DUMP1090_VERSION)" >&2
 	@echo "  Architecture:     $(ARCH)" >&2
 	@echo "  DSP mix:          $(STARCH_MIX)" >&2

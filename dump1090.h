@@ -59,6 +59,10 @@
 # define MODES_DUMP1090_VARIANT     "dump1090-unknown"
 #endif
 
+#ifndef STD_CVER
+# define STD_CVER "c11"
+#endif
+
 // ============================= Include files ==========================
 
 #include <stdio.h>

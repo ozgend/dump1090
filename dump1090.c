@@ -829,8 +829,16 @@ int main(int argc, char **argv) {
     if (Modes.nfix_crc > MODES_MAX_BITERRORS)
         Modes.nfix_crc = MODES_MAX_BITERRORS;
 
-    // Initialization
+    // print compiler and app version
+    log_with_timestamp("GCC: %s", __VERSION__);
+    #if defined(__cplusplus)
+      log_with_timestamp("STD: %s, C++ standard: %ld", STD_CVER, __cplusplus);
+    #else
+      log_with_timestamp("STD: %s, C standard: %ld", STD_CVER, __STDC_VERSION__);
+    #endif
     log_with_timestamp("%s %s starting up.", MODES_DUMP1090_VARIANT, MODES_DUMP1090_VERSION);
+
+    // Initialization
     modesInit();
 
     if (!sdrOpen()) {
